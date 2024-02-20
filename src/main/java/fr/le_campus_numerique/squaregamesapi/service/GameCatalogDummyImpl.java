@@ -22,7 +22,7 @@ public class GameCatalogDummyImpl implements GameCatalog {
 
     @Override
     public Collection<String> getGameIdentifiers() {
-        return List.of(ticTacToeGameFactory.getGameId(),taquinGameFactory.getGameId(),connectFourGameFactory.getGameId());
+        return List.of(ticTacToeGameFactory.getGameFactoryId(),taquinGameFactory.getGameFactoryId(),connectFourGameFactory.getGameFactoryId());
     }
 
     @Override

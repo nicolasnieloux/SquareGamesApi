@@ -5,14 +5,10 @@ import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.squaregamesapi.dto.GameCreationParams;
 import fr.le_campus_numerique.squaregamesapi.dto.GameDTO;
 import fr.le_campus_numerique.squaregamesapi.repository.GameCatalog;
-import fr.le_campus_numerique.squaregamesapi.service.GameCatalogDummyImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class GameController {
@@ -21,10 +17,27 @@ public class GameController {
     GameCatalog gameCatalogDummy;
     Map<String, Game> gameMap = new HashMap<>();
 
+    private static GameDTO gameToDto(Game entry) {
+        return new GameDTO(entry.getId().toString(), entry.getFactoryId());
+    }
+
     @GetMapping("/gameCatalog")
     public Collection<String> getGameCatalog() {
 
         return gameCatalogDummy.getGameIdentifiers();
+    }
+
+    @GetMapping("/games")
+
+    public List<GameDTO> displayAllGAmes() {
+        List<GameDTO> gameDTOList = new ArrayList<>();
+
+        // Utilisation de Stream pour mapper les entrées de la map à des DTO
+        gameMap.values().stream()
+                .map(GameController::gameToDto)
+                .forEach(gameDTOList::add);
+
+        return gameDTOList;
     }
 
     @PostMapping("/games")
@@ -32,16 +45,29 @@ public class GameController {
 
         GameFactory gameFactory = gameCatalogDummy.getGameFactoryById(params.getTypeGame());
         Game game = gameFactory.createGame(params.getPlayerCount(), params.getBoardSize());
-        String id = UUID.randomUUID().toString();
-        gameMap.put(id, game);
-        return new GameDTO( id, game.getFactoryId());
+        gameMap.put(game.getId().toString(), game);
+        return gameToDto(game);
 
     }
 
     @GetMapping("/games/{gameId}")
-    public Object getGame(@PathVariable String gameId) {
+    public GameDTO getGame(@PathVariable String gameId) {
 // TODO - actually get and return game with id 'gameId'
         Game game = gameMap.get(gameId);
-        return game;
+        return gameToDto(game);
     }
+
+    @DeleteMapping("/games/{gameId}/")
+    public String deleteGame(@PathVariable String gameId) {
+        gameMap.remove(gameId);
+        return "Le jeu a été supprimé";
+    }
+
+    @GetMapping("/games/{gameId}/possiblemoves")
+    public Object getPossibleMoves(@PathVariable String gameId) {
+
+        return gameMap.get(gameId).getRemainingTokens();
+    }
+
+
 }
