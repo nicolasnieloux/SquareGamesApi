@@ -1,7 +1,6 @@
 package fr.le_campus_numerique.squaregamesapi.controller;
 
 import fr.le_campus_numerique.square_games.engine.Game;
-import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.squaregamesapi.dto.GameCreationParams;
 import fr.le_campus_numerique.squaregamesapi.dto.GameDTO;
 import fr.le_campus_numerique.squaregamesapi.repository.GameCatalog;
@@ -14,11 +13,14 @@ import java.util.*;
 @RestController
 public class GameController {
 
+
     @Autowired
     GameService gameService;
 
     @Autowired
     GameCatalog gameCatalogDummy;
+
+
     Map<String, Game> gameMap = new HashMap<>();
 
     private static GameDTO gameToDto(Game entry) {
@@ -47,10 +49,7 @@ public class GameController {
     @PostMapping("/games")
     public GameDTO createGame(@RequestBody GameCreationParams params) {
 
-        GameFactory gameFactory = gameCatalogDummy.getGameFactoryById(params.getTypeGame());
-        Game game = gameFactory.createGame(params.getPlayerCount(), params.getBoardSize());
-        gameMap.put(game.getId().toString(), game);
-        return gameToDto(game);
+        return gameToDto(gameService.createGame(params));
 
     }
 

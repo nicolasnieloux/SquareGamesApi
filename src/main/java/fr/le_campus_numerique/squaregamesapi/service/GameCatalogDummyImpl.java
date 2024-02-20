@@ -13,31 +13,24 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class GameCatalogDummyImpl implements GameCatalog {
+class GameCatalogDummyImpl implements GameCatalog {
 
     TicTacToeGameFactory ticTacToeGameFactory = new TicTacToeGameFactory();
     TaquinGameFactory taquinGameFactory = new TaquinGameFactory();
     ConnectFourGameFactory connectFourGameFactory = new ConnectFourGameFactory();
 
-
+    public GameFactory getGameFactoryById(String id) {
+        return switch (id) {
+            case "tictactoe" -> ticTacToeGameFactory;
+            case "15 puzzle" -> taquinGameFactory;
+            case "connect4" -> connectFourGameFactory;
+            default -> null;
+        };
+    }
     @Override
     public Collection<String> getGameIdentifiers() {
         return List.of(ticTacToeGameFactory.getGameFactoryId(),taquinGameFactory.getGameFactoryId(),connectFourGameFactory.getGameFactoryId());
     }
 
-    @Override
-    public GameFactory getGameFactoryById(String id) {
-        switch (id){
-            case "tictactoe":
-            return ticTacToeGameFactory;
-
-            case "15 puzzle":
-                return taquinGameFactory;
-
-            case "connect4":
-                return connectFourGameFactory;
-        }
-        return null;
-    }
 
 }

@@ -8,5 +8,4 @@ public interface GameCatalog {
     Collection<String> getGameIdentifiers();
 
     GameFactory getGameFactoryById(String id);
-
 }
