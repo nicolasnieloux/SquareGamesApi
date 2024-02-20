@@ -5,6 +5,7 @@ import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.squaregamesapi.dto.GameCreationParams;
 import fr.le_campus_numerique.squaregamesapi.dto.GameDTO;
 import fr.le_campus_numerique.squaregamesapi.repository.GameCatalog;
+import fr.le_campus_numerique.squaregamesapi.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,9 @@ import java.util.*;
 
 @RestController
 public class GameController {
+
+    @Autowired
+    GameService gameService;
 
     @Autowired
     GameCatalog gameCatalogDummy;
