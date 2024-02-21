@@ -17,8 +17,6 @@ class GameServiceImpl implements GameService{
 
     Map<String, Game> gameMap = new HashMap<>();
 
-
-
     public Game createGame(GameCreationParams params){
         GameFactory gameFactory = gameCatalog.getGameFactoryById(params.getTypeGame());
         Game game = gameFactory.createGame(params.getPlayerCount(), params.getBoardSize());
