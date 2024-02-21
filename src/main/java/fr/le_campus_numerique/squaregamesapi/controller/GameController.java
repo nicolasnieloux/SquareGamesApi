@@ -21,10 +21,15 @@ public class GameController {
     GameCatalog gameCatalogDummy;
 
 
-    Map<String, Game> gameMap = new HashMap<>();
 
-    private static GameDTO gameToDto(Game entry) {
+    private GameDTO gameToDto(Game entry) {
         return new GameDTO(entry.getId().toString(), entry.getFactoryId());
+    }
+
+    private List<GameDTO> DtoToList(Collection<Game> games){
+       return games.stream()
+                .map(this::gameToDto)
+                .toList();
     }
 
     @GetMapping("/gameCatalog")
@@ -34,16 +39,8 @@ public class GameController {
     }
 
     @GetMapping("/games")
-
     public List<GameDTO> displayAllGAmes() {
-        List<GameDTO> gameDTOList = new ArrayList<>();
-
-        // Utilisation de Stream pour mapper les entrées de la map à des DTO
-        gameMap.values().stream()
-                .map(GameController::gameToDto)
-                .forEach(gameDTOList::add);
-
-        return gameDTOList;
+        return DtoToList(gameService.getAllGames());
     }
 
     @PostMapping("/games")
@@ -56,20 +53,19 @@ public class GameController {
     @GetMapping("/games/{gameId}")
     public GameDTO getGame(@PathVariable String gameId) {
 // TODO - actually get and return game with id 'gameId'
-        Game game = gameMap.get(gameId);
-        return gameToDto(game);
+
+        return gameToDto(gameService.getGame(gameId));
     }
 
     @DeleteMapping("/games/{gameId}/")
     public String deleteGame(@PathVariable String gameId) {
-        gameMap.remove(gameId);
-        return "Le jeu a été supprimé";
+        return gameService.deleteGame(gameId);
     }
 
     @GetMapping("/games/{gameId}/possiblemoves")
     public Object getPossibleMoves(@PathVariable String gameId) {
 
-        return gameMap.get(gameId).getRemainingTokens();
+        return gameService.getPossibleMoves(gameId);
     }
 
 

@@ -7,6 +7,7 @@ import fr.le_campus_numerique.squaregamesapi.repository.GameCatalog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 class GameServiceImpl implements GameService{
     @Autowired
     GameCatalog gameCatalog;
+
 
     Map<String, Game> gameMap = new HashMap<>();
 
@@ -23,4 +25,22 @@ class GameServiceImpl implements GameService{
         gameMap.put(game.getId().toString(), game);
         return game;
     }
+
+    public Collection<Game> getAllGames(){
+        return gameMap.values();
+    }
+
+    public Game getGame(String gameId){
+        return gameMap.get(gameId);
+    }
+
+    public String deleteGame (String gameId){
+        gameMap.remove(gameId);
+        return "Le jeu a été supprimé";
+    }
+
+    public Object getPossibleMoves(String gameId){
+        return gameMap.get(gameId).getRemainingTokens();
+    }
+
 }
