@@ -14,10 +14,10 @@ import java.util.Map;
 @Service
 class GameServiceImpl implements GameService{
     @Autowired
-    GameCatalog gameCatalog;
+    private GameCatalog gameCatalog;
 
 
-    Map<String, Game> gameMap = new HashMap<>();
+    private Map<String, Game> gameMap = new HashMap<>();
 
     public Game createGame(GameCreationParams params){
         GameFactory gameFactory = gameCatalog.getGameFactoryById(params.getTypeGame());

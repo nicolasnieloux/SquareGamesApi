@@ -15,26 +15,24 @@ public class GameController {
 
 
     @Autowired
-    GameService gameService;
+    private GameService gameService;
 
     @Autowired
-    GameCatalog gameCatalogDummy;
-
+    private GameCatalog gameCatalogDummy;
 
 
     private GameDTO gameToDto(Game entry) {
         return new GameDTO(entry.getId().toString(), entry.getFactoryId());
     }
 
-    private List<GameDTO> DtoToList(Collection<Game> games){
-       return games.stream()
+    private List<GameDTO> DtoToList(Collection<Game> games) {
+        return games.stream()
                 .map(this::gameToDto)
                 .toList();
     }
 
     @GetMapping("/gameCatalog")
     public Collection<String> getGameCatalog() {
-
         return gameCatalogDummy.getGameIdentifiers();
     }
 
@@ -45,15 +43,11 @@ public class GameController {
 
     @PostMapping("/games")
     public GameDTO createGame(@RequestBody GameCreationParams params) {
-
         return gameToDto(gameService.createGame(params));
-
     }
 
     @GetMapping("/games/{gameId}")
     public GameDTO getGame(@PathVariable String gameId) {
-// TODO - actually get and return game with id 'gameId'
-
         return gameToDto(gameService.getGame(gameId));
     }
 
@@ -64,7 +58,6 @@ public class GameController {
 
     @GetMapping("/games/{gameId}/possiblemoves")
     public Object getPossibleMoves(@PathVariable String gameId) {
-
         return gameService.getPossibleMoves(gameId);
     }
 
