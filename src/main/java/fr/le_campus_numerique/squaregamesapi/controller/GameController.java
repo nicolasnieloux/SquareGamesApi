@@ -3,6 +3,7 @@ package fr.le_campus_numerique.squaregamesapi.controller;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.squaregamesapi.dto.GameCreationParams;
 import fr.le_campus_numerique.squaregamesapi.dto.GameDTO;
+import fr.le_campus_numerique.squaregamesapi.plugin.GamePlugin;
 import fr.le_campus_numerique.squaregamesapi.repository.GameCatalog;
 import fr.le_campus_numerique.squaregamesapi.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class GameController {
     @Autowired
     private GameCatalog gameCatalogDummy;
 
+
+    @Autowired
+    private List<GamePlugin> gamePluginList;
 
     private GameDTO gameToDto(Game entry) {
         return new GameDTO(entry.getId().toString(), entry.getFactoryId());
@@ -61,5 +65,11 @@ public class GameController {
         return gameService.getPossibleMoves(gameId);
     }
 
+    @GetMapping("/catalog")
+    public List<String> test(@RequestHeader("Accept-Language")  Locale locale){
+        return gamePluginList.stream()
+                .map(plugins->plugins.getName(locale))
+                .toList();
+    }
 
 }
