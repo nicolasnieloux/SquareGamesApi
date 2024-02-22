@@ -12,8 +12,6 @@ import java.util.*;
 
 @Service
 class GameServiceImpl implements GameService {
-    @Autowired
-    private GameCatalog gameCatalog;
 
     @Autowired
     private List<GamePlugin> gamePluginList;
@@ -21,7 +19,11 @@ class GameServiceImpl implements GameService {
     private Map<String, Game> gameMap = new HashMap<>();
 
     public Game createGame(GameCreationParams params) {
-        GameFactory gameFactory = gameCatalog.getGameFactoryById(params.getTypeGame());
+
+        GameFactory gameFactory = gamePluginList.stream()
+                .filter(gamePlugin -> Objects.equals(gamePlugin.getGameFactory().getGameFactoryId(), params.getTypeGame()))
+                .toList().getFirst().getGameFactory();
+
         Game game = gameFactory.createGame(params.getPlayerCount(), params.getBoardSize());
         gameMap.put(game.getId().toString(), game);
         return game;
