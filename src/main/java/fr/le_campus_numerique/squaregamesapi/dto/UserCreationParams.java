@@ -4,13 +4,13 @@ public class UserCreationParams {
 
     private String name;
 
-    private Integer id;
+    private String id;
 
     public String getName() {
         return name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 }

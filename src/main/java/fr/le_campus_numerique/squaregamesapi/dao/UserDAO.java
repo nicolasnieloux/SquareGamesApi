@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserDAO {
     public List<User> getAllUsers();
-    public User getUserById(int id);
+    public User getUserById(String id);
     public User addUser(UserCreationParams params);
     public User updateUser(User user);
-    public String deleteUser(int id);
+    public String deleteUser(String id);
 
 }

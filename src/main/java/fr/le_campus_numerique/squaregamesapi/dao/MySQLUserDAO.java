@@ -6,12 +6,16 @@ import fr.le_campus_numerique.squaregamesapi.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MySQLUserDAO implements UserDAO {
 
     private List<User> userList = new ArrayList<>();
+
+    private Map<String, User> userMap = new HashMap<>();
 
     @Override
     public List<User> getAllUsers() {
@@ -20,7 +24,7 @@ public class MySQLUserDAO implements UserDAO {
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(String id) {
         for (User u : userList) {
             if (u.getId() == id) {
                 return u;
@@ -48,8 +52,8 @@ public class MySQLUserDAO implements UserDAO {
         }return null;
     }
 
-    @Override
-    public String deleteUser(int id) {
+
+    public String deleteUser(String id) {
         for (User u : userList) {
             if (u.getId() == id) {
                 userList.remove(u);
