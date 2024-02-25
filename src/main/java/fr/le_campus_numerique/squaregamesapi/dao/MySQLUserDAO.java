@@ -35,7 +35,9 @@ public class MySQLUserDAO implements UserDAO {
 
     @Override
     public User addUser(UserCreationParams params) {
-        User newUser = new User(params.getId(), params.getName());
+
+        String id = generateUniqueId();
+        User newUser = new User(id, params.getName());
         userList.add(newUser);
         return newUser;
     }
@@ -61,5 +63,10 @@ public class MySQLUserDAO implements UserDAO {
             }
         }
         return null;
+    }
+
+    private String generateUniqueId() {
+        int id = userList.size() + 1;
+        return String.valueOf(id);
     }
 }
