@@ -46,9 +46,10 @@ public class MySQLUserDAO implements UserDAO {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(String id, User user) {
         for (User u : userList) {
-            if (u.getId().equals(user.getId())) {
+            if (u.getId().equals(id)) {
+                user.setId(id);
                 userList.set(userList.indexOf(u), user);
                 return user;
             }

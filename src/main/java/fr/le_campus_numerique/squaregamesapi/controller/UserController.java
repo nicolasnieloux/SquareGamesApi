@@ -52,6 +52,6 @@ public class UserController {
 
     @PutMapping("/user/{userId}")
     public UserDTO updateUser(@PathVariable String userId, @RequestBody User user) {
-        return userToDto(mySQLUserDAO.updateUser(user));
+        return userToDto(mySQLUserDAO.updateUser(userId, user));
     }
 }
