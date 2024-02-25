@@ -25,9 +25,12 @@ public class MySQLUserDAO implements UserDAO {
 
     @Override
     public User getUserById(String id) {
-        for (User u : userList) {
-            if (u.getId() == id) {
-                return u;
+
+        if (Integer.parseInt(id) <= userList.size()) {
+            for (User u : userList) {
+                if (u.getId().equals(id)) {
+                    return u;
+                }
             }
         }
         return null;
@@ -45,19 +48,18 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public User updateUser(User user) {
         for (User u : userList) {
-            if (u.getId() == user.getId()) {
+            if (u.getId().equals(user.getId())) {
                 userList.set(userList.indexOf(u), user);
-
                 return user;
             }
-
-        }return null;
+        }
+        return null;
     }
 
 
     public String deleteUser(String id) {
         for (User u : userList) {
-            if (u.getId() == id) {
+            if (u.getId().equals(id)) {
                 userList.remove(u);
                 return "L'utilisateur a été supprimé";
             }
@@ -66,7 +68,10 @@ public class MySQLUserDAO implements UserDAO {
     }
 
     private String generateUniqueId() {
-        int id = userList.size() + 1;
-        return String.valueOf(id);
+        if (!userList.isEmpty()) {
+            int id = Integer.parseInt(userList.getLast().getId())+1;
+            return String.valueOf(id);
+        }
+        return "1";
     }
 }

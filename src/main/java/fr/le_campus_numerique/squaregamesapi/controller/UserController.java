@@ -20,7 +20,7 @@ public class UserController {
 //    @Autowired
 //    private List<User> userList;
 
-    private UserDTO userToDto(User entry){
+    private UserDTO userToDto(User entry) {
         return new UserDTO(entry.getId(), entry.getName());
     }
 
@@ -40,18 +40,18 @@ public class UserController {
         return userToDto(mySQLUserDAO.addUser(params));
     }
 
-//    @GetMapping("/user/{userId}")
-//    public User getUserById(@PathVariable String userId) {
-//        return mySQLUserDAO.getUserById(userId);
-//    }
-//
-//    @DeleteMapping("/users/{userId}")
-//    public String deleteGame(@PathVariable String userId) {
-//        return mySQLUserDAO.deleteUser(userId);
-//    }
-//
-//    @PutMapping("/user/{userId}")
-//    public User updateUser(@PathVariable String userId, @RequestBody User user) {
-//        return mySQLUserDAO.updateUser(user);
+    @GetMapping("/user/{userId}")
+    public UserDTO getUserById(@PathVariable String userId) {
+        return userToDto(mySQLUserDAO.getUserById(userId));
     }
 
+    @DeleteMapping("/users/{userId}")
+    public String deleteGame(@PathVariable String userId) {
+        return mySQLUserDAO.deleteUser(userId);
+    }
+
+    @PutMapping("/user/{userId}")
+    public UserDTO updateUser(@PathVariable String userId, @RequestBody User user) {
+        return userToDto(mySQLUserDAO.updateUser(user));
+    }
+}
