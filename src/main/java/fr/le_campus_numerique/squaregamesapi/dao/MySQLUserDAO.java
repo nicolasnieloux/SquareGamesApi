@@ -15,7 +15,6 @@ public class MySQLUserDAO implements UserDAO {
 
     private List<User> userList = new ArrayList<>();
 
-    private Map<String, User> userMap = new HashMap<>();
 
     @Override
     public List<User> getAllUsers() {
