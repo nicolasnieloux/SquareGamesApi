@@ -3,6 +3,7 @@ package fr.le_campus_numerique.squaregamesapi.dao;
 import fr.le_campus_numerique.squaregamesapi.database.DbAccess;
 import fr.le_campus_numerique.squaregamesapi.dto.UserCreationParams;
 import fr.le_campus_numerique.squaregamesapi.user.User;
+import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import java.util.List;
 
 
 @Service
-@Primary
 public class SqlUserDao implements UserDAO {
 
     @Autowired

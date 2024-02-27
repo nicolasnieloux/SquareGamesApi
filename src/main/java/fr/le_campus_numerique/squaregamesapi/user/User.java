@@ -1,13 +1,29 @@
 package fr.le_campus_numerique.squaregamesapi.user;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer id_db;
     private String id;
+
     private String name;
 
-    public User(String id, String name) {
-        this.id = id;
-        this.name = name;
+
+
+
+    public Integer getId_db() {
+        return id_db;
+    }
+
+    public void setId_db(Integer id_db) {
+        this.id_db = id_db;
     }
 
     public String getId() {
@@ -25,4 +41,18 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+    public User() {
+
+    }
+    public User(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public User(Integer id_db, String id, String name) {
+        this.id_db = id_db;
+        this.id = id;
+        this.name = name;
+    }
+
 }

@@ -3,11 +3,12 @@ package fr.le_campus_numerique.squaregamesapi.dao;
 
 import fr.le_campus_numerique.squaregamesapi.dto.UserCreationParams;
 import fr.le_campus_numerique.squaregamesapi.user.User;
+import org.springframework.data.repository.CrudRepository;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface UserDAO {
+public interface UserDAO  {
     public List<User> getAllUsers() throws SQLException;
     public User getUserById(String id);
     public User addUser(UserCreationParams params) throws SQLException;
