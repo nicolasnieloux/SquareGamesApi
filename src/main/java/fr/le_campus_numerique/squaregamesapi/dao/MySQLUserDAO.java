@@ -5,10 +5,9 @@ import fr.le_campus_numerique.squaregamesapi.dto.UserCreationParams;
 import fr.le_campus_numerique.squaregamesapi.user.User;
 import org.springframework.stereotype.Service;
 
+import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MySQLUserDAO implements UserDAO {
