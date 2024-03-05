@@ -27,16 +27,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>fr.le_campus_numerique.square_games</groupId>
             <artifactId>engine</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.qdox</groupId>
-            <artifactId>qdox</artifactId>
-            <version>2.0.3</version>
         </dependency>
         <dependency>
         <groupId>org.springframework.data</groupId>

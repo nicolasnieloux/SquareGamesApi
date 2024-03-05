@@ -1,5 +1,6 @@
 package fr.le_campus_numerique.squaregamesapi.controller;
 
+import fr.le_campus_numerique.squaregamesapi.SquareGamesApiApplication;
 import fr.le_campus_numerique.squaregamesapi.dao.MySQLUserDAO;
 import fr.le_campus_numerique.squaregamesapi.dao.UserDAO;
 import fr.le_campus_numerique.squaregamesapi.dto.UserCreationParams;
@@ -7,6 +8,8 @@ import fr.le_campus_numerique.squaregamesapi.dto.UserDTO;
 import fr.le_campus_numerique.squaregamesapi.repository.UserRepository;
 import fr.le_campus_numerique.squaregamesapi.user.User;
 import fr.le_campus_numerique.squaregamesapi.user.User2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +25,11 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-//    @Autowired
-//    private UserDAO userDAO;
 
     @Autowired
     private UserRepository userRepository;
 
-
+    Logger log = LoggerFactory.getLogger(getClass());
     private UserDTO userToDto(User entry) {
         return entry !=null?new UserDTO(entry.getId(), entry.getName()):null;
     }
@@ -50,17 +51,27 @@ public class UserController {
         return DtoToListUser(userList);
     }
 
-    @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody UserDTO addNewUser(@RequestParam String name
-            , @RequestParam String id) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
+    @PostMapping(path = "/add")
+    public @ResponseBody UserDTO addNewUser(@RequestParam String name, @RequestParam String id) {
+        // Utilisez le logger pour enregistrer des informations ou des erreurs
+        log.info("Tentative d'ajout d'un nouvel utilisateur.");
+        try {
+            // Créez un nouvel utilisateur
+            User newUser = new User();
+            newUser.setName(name);
+            newUser.setId(id);
 
-        User n = new User();
-        n.setName(name);
-        n.setId(id);
+            // Enregistrez le nouvel utilisateur dans la base de données
+            User savedUser = userRepository.save(newUser);
 
-        return userToDto(userRepository.save(n));
+            // Retournez le DTO de l'utilisateur enregistré
+            return userToDto(savedUser);
+        } catch (Exception e) {
+            // S'il y a une exception, enregistrez-la dans le journal des erreurs
+            log.error("Erreur lors de l'ajout d'un nouvel utilisateur : {}", e.getMessage());
+            // Vous pouvez également renvoyer un message d'erreur ou une réponse appropriée
+            throw new RuntimeException("Impossible d'ajouter un nouvel utilisateur. Veuillez réessayer plus tard.");
+        }
     }
 
 //    @PostMapping("/user")
@@ -70,9 +81,15 @@ public class UserController {
 
 
     @GetMapping("/user/{userId}")
-    public UserDTO getUserById (@PathVariable int userId){
+    public UserDTO getUserById(@PathVariable int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
 
-        return userToDto(userRepository.findById(userId).orElse(null));
+        if (optionalUser.isPresent()) {
+            return userToDto(optionalUser.get());
+        } else {
+            log.error("L'identifiant " + userId + " n'existe pas dans la base de données.", userId);
+            return null; // Ou renvoyez un message d'erreur approprié selon vos besoins
+        }
     }
 
 

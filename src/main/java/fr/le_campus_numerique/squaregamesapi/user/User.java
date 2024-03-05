@@ -3,7 +3,7 @@ package fr.le_campus_numerique.squaregamesapi.user;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "nimportequoi")
+@Table(name = "Player")
 public class User {
 
     @Id

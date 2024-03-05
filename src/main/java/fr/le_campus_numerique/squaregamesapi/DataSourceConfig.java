@@ -14,9 +14,9 @@ public class DataSourceConfig {
     @Profile("h2")
     public DataSource dataSourceH2(){
         return DataSourceBuilder.create()
-//                .url("jdbc:h2:mem:testdb")
-//                .username("irek")
-//                .password("root")
+                .url("jdbc:h2:mem:testdb")
+                .username("irek")
+                .password("root")
                 .build();
     }
 
@@ -24,9 +24,9 @@ public class DataSourceConfig {
     @Profile("mysql")
     public DataSource dataSourceMysql(){
         return DataSourceBuilder.create()
-//                .url("jdbc:mysql://${MYSQL_HOST:localhost}:6603/square_games")
-//                .username("root")
-//                .password("helloworld")
+                .url("jdbc:mysql://localhost:6603/squareGames")
+                .username("root")
+                .password("helloworld")
                 .build();
     }
 }
