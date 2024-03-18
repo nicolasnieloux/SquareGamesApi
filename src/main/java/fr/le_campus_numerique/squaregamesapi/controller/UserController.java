@@ -40,7 +40,7 @@ public class UserController {
                 .toList();
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public List<UserDTO> getUsers() {
 
         List<User> userList = new ArrayList<>();
@@ -51,7 +51,7 @@ public class UserController {
         return DtoToListUser(userList);
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping(path = "/user/add")
     public @ResponseBody UserDTO addNewUser(@RequestParam String name, @RequestParam String id) {
         // Utilisez le logger pour enregistrer des informations ou des erreurs
         log.info("Tentative d'ajout d'un nouvel utilisateur.");
@@ -131,5 +131,20 @@ public class UserController {
 //        return userToDto(userDAO.updateUser(userId, user));
 //    }
 
+    @GetMapping("/user/{name}")
+    public UserDTO findByUsername(@PathVariable String username){
+
+        return null;
+    }
+
+    @GetMapping("/login")
+    public String loginEndpoint() {
+        return "Login!";
+    }
+
+    @GetMapping("/admin")
+    public String adminEndpoint() {
+        return "Admin!";
+    }
 
     }
